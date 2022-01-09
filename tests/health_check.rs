@@ -1,4 +1,3 @@
-use actix_web::connect;
 use sqlx::{Connection, PgConnection};
 use std::net::TcpListener;
 use zero2prod::configuration;
@@ -15,7 +14,7 @@ fn spawn_app() -> String {
     format!("http://127.0.0.1:{}", port)
 }
 
-#[actix_rt::test]
+#[tokio::test]
 async fn health_check_works() {
     let address = spawn_app();
     let client = reqwest::Client::new();
@@ -30,7 +29,7 @@ async fn health_check_works() {
     assert_eq!(Some(0), response.content_length());
 }
 
-#[actix_rt::test]
+#[tokio::test]
 async fn subscribe_returns_a_200_for_valid_form_data() {
     let address = spawn_app();
     let configuration = configuration::get().expect("failed to read configuration");
@@ -60,7 +59,7 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
     assert_eq!(saved.name, "Nick");
 }
 
-#[actix_rt::test]
+#[tokio::test]
 async fn subscribe_returns_a_400_when_data_is_missing() {
     let address = spawn_app();
     let client = reqwest::Client::new();
