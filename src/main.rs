@@ -1,9 +1,14 @@
 #![deny(clippy::all, clippy::pedantic)]
 
 use std::net::TcpListener;
-use zero2prod::run;
+use zero2prod::configuration;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    run(TcpListener::bind("127.0.0.1:8420").expect("failed to bind address"))?.await
+    let configuration = configuration::get().expect("failed to read configuration");
+
+    let address = format!("127.0.0.1:{}", configuration.application_port);
+    let listener = TcpListener::bind(address)?;
+
+    zero2prod::run(listener)?.await
 }
