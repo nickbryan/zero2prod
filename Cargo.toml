@@ -11,13 +11,13 @@ path = "src/main.rs"
 name = "zero2prod"
 
 [dependencies]
-actix-web = "=4.0.0-beta.8"
-actix-http = "=3.0.0-beta.8"
-config = "0.11"
-serde = { version = "1", features = ["derive"]}
+actix-web = "4.0.0-beta.19"
+config = "0.11.0"
+serde = { version = "1.0.133", features = ["derive"] }
+tokio = { version = "1.15.0", features = ["macros", "rt-multi-thread"] }
 
 [dependencies.sqlx]
-version = "0.5.5"
+version = "0.5.10"
 default-features = false
 features = [
     "runtime-actix-rustls",
@@ -29,6 +29,4 @@ features = [
 ]
 
 [dev-dependencies]
-actix-rt = "2"
-reqwest = "0.11"
-tokio = "1"
+reqwest = { version = "0.11.8", features = ["json"] }
